@@ -1,0 +1,315 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   stencil - Optimization training at CINES
+  </title>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+  </script>
+  <script>
+   hljs.initHighlightingOnLoad();
+  </script>
+  <style type="text/css">
+   body{font:16px Helvetica,Arial,sans-serif;line-height:1.4;color:#333;word-wrap:break-word;background-color:#fff;padding:10px 15px}strong{font-weight:700}h1{font-size:2em;margin:.67em 0;text-align:center}h2{font-size:1.75em}h3{font-size:1.5em}h4{font-size:1.25em}h1,h2,h3,h4,h5,h6{font-weight:700;position:relative;margin-top:15px;margin-bottom:15px;line-height:1.1}h1,h2{border-bottom:1px solid #eee}hr{height:0;margin:15px 0;overflow:hidden;background:0 0;border:0;border-bottom:1px solid #ddd}a{color:#4183C4}a.absent{color:#c00}ol,ul{padding-left:15px;margin-left:5px}ol{list-style-type:lower-roman}table{padding:0}table tr{border-top:1px solid #ccc;background-color:#fff;margin:0;padding:0}table tr:nth-child(2n){background-color:#aaa}table tr th{font-weight:700;border:1px solid #ccc;text-align:left;margin:0;padding:6px 13px}table tr td{border:1px solid #ccc;text-align:left;margin:0;padding:6px 13px}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}img{max-width:100%}code{padding:0 5px;background-color:#d3d3d3}blockquote{padding: 0 15px;border-left:4px solid #ccc}
+  </style>
+ </head>
+ <body>
+  <h1>
+   Stencil code
+  </h1>
+  <h2>
+   Compile the executable
+  </h2>
+  <p>
+   The code is written in
+   <code>
+    C++11
+   </code>
+   so you will need to use
+   <code>
+    g++
+   </code>
+   compiler with
+   <code>
+    -std=c++11
+   </code>
+   option.
+   <br/>
+   There is a
+   <code>
+    Makefile
+   </code>
+   to help you in this task. The compiling is very simple:
+  </p>
+  <pre><code>&gt; make
+</code></pre>
+  <p>
+   This will generate the
+   <code>
+    bin/stencil
+   </code>
+   executable file.
+   <br/>
+   If you want to re-compile after a code modification just re-do:
+  </p>
+  <pre><code>&gt; make
+</code></pre>
+  <p>
+   If you want to re-compile the code from scratch:
+  </p>
+  <pre><code>&gt; make clean; make
+</code></pre>
+  <p>
+   You can modify the
+   <code>
+    Makefile
+   </code>
+   options:
+  </p>
+  <pre><code># compiler choice
+CC = g++
+# compiling options
+CFLAGS = -O3 -march=native -Wall -std=c++11
+# compiling options (debug mode)
+DCFLAGS = -g -O0
+# compiling flags
+LDFLAGS = -fopenmp
+# library link
+LIBS = -lm
+</code></pre>
+  <p>
+   If you modify something in the
+   <code>
+    Makefile
+   </code>
+   , think to launch a from scratch compiling:
+  </p>
+  <pre><code>&gt; make clean; make
+</code></pre>
+  <h2>
+   Run the executable
+  </h2>
+  <p>
+   The generated executable
+   <code>
+    bin/stencil
+   </code>
+   requires some arguments:
+  </p>
+  <pre><code>&gt; ./bin/stencil cols rows nIte verbose
+</code></pre>
+  <p>
+   Here is an example with a 100 columns and 100 rows grid and  with 10 iterations (verbose mode off):
+  </p>
+  <pre><code>&gt; ./bin/stencil 100 100 10 0
+0.0762939 MB allocated
+
+Simulation configuration:
+ - nIte     = 10
+ - cols     = 100
+ - rows     = 100
+ - nThreads = 1
+ - dataType = float
+Stencil time:   0.562 ms
+Stencil Gflops: 0
+Stencil GB/s:   0
+
+Deallocations...
+</code></pre>
+  <p>
+   Verbose mode displays the initial and the final grid. Try to use it with small grids:
+  </p>
+  <pre><code>&gt; ./bin/stencil 8 8 3 1
+0.000488281 MB allocated
+
+Initial grid: 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+1.000 1.000 1.000 2.000 1.000 1.000 1.000 1.000 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+
+Simulation configuration:
+ - nIte     = 3
+ - cols     = 8
+ - rows     = 8
+ - nThreads = 4
+ - dataType = float
+Stencil time:    0.003 ms
+Stencil Gflop/s: 0
+Stencil GB/s:    0
+
+Final grid: 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+1.000 1.000 1.024 1.024 1.024 1.000 1.000 1.000 
+1.000 1.024 1.048 1.096 1.048 1.024 1.000 1.000 
+1.000 1.024 1.096 1.104 1.096 1.024 1.008 1.000 
+1.000 1.024 1.048 1.096 1.048 1.024 1.000 1.000 
+1.000 1.000 1.024 1.024 1.024 1.000 1.000 1.000 
+1.000 1.000 1.000 1.008 1.000 1.000 1.000 1.000 
+1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 
+
+Deallocations...
+</code></pre>
+  <p>
+   As you can see, the basic code provides the computational time but Gflop/s and GB/s are not enabled.
+  </p>
+  <h2>
+   Work to do
+  </h2>
+  <p>
+   The source code is available in the
+   <code>
+    src
+   </code>
+   folder (
+   <code>
+    src/stencil.cpp
+   </code>
+   ).
+   <br/>
+   In this code we use a generic
+   <code>
+    floatType
+   </code>
+   type instead of declaring directly
+   <code>
+    float
+   </code>
+   or
+   <code>
+    double
+   </code>
+   types. This have been made to easily modify the precision of floating-point numbers.
+  </p>
+  <h3>
+   Code analysis
+  </h3>
+  <ol>
+   <li>
+    Count the number of floating-point operations (flops) in the
+    <code>
+     computeStencil
+    </code>
+    routine (lines 27 to 64) and report this value in the
+    <code>
+     flops
+    </code>
+    variable line 156.
+   </li>
+   <li>
+    Estimate the number of memory accesses (memops) in the
+    <code>
+     computeStencil
+    </code>
+    routine (lines 27 to 64) and report this value in the
+    <code>
+     memops
+    </code>
+    variable line 158. Now you will have dynamic Gflop/s (code performance) and GB/s (memory bandwidth utilization).
+   </li>
+   <li>
+    Launch code with different
+    <code>
+     floatType
+    </code>
+    precisions (line 17:
+    <code>
+     float
+    </code>
+    for simple precision numbers,
+    <code>
+     double
+    </code>
+    for double precision numbers) but keep the same problem size. What did you notice? Can you explain it?
+   </li>
+   <li>
+    Calculate the peak performance of your processor (in Gflop/s).
+   </li>
+   <li>
+    Measure the memory bandwidth of your computer (in GB/s with STREAM).
+   </li>
+   <li>
+    Calculate the attainable performance of this stencil code with the Roofline model.
+   </li>
+   <li>
+    Is this a memory-bound code or a compute-bound code?
+   </li>
+   <li>
+    Try to launch the code with different problem sizes and keep the results into a file. What can you say about the CPU performances evolution?
+   </li>
+  </ol>
+  <p>
+   Example of strategy (variable number
+   <code>
+    cols
+   </code>
+   and fixed number of
+   <code>
+    rows
+   </code>
+   ):
+  </p>
+  <pre><code>&gt; ./bin/stencil 128 256 10 0
+</code></pre>
+  <pre><code>&gt; ./bin/stencil 256 256 10 0
+</code></pre>
+  <pre><code>&gt; ./bin/stencil 512 256 10 0
+</code></pre>
+  <pre><code>&gt; ./bin/stencil 1024 256 10 0
+</code></pre>
+  <pre><code>&gt; ./bin/stencil 2048 256 10 0
+</code></pre>
+  <h3>
+   Code modifications
+  </h3>
+  <ol>
+   <li>
+    Implement
+    <strong>
+     cache blocking
+    </strong>
+    technique with an abitrary size of blocks.
+   </li>
+   <li>
+    Determine the optimal size of blocks (for your computer).
+   </li>
+   <li>
+    Try to see when cache blocking brings performance improvements (keep the results into a file).
+   </li>
+   <li>
+    Make a multi-threaded code with OpenMP.
+   </li>
+   <li>
+    Calculate speed up for small problem sizes (
+    <code>
+     cols = 512
+    </code>
+    ,
+    <code>
+     rows = 256
+    </code>
+    ) and for big problem sizes (
+    <code>
+     cols = 32768
+    </code>
+    ,
+    <code>
+     row = 512
+    </code>
+    ).
+   </li>
+   <li>
+    What can you say about those speeds up?
+   </li>
+   <li>
+    If you could make improvements on your computer architecture, what will you do in order to improve the stencil code performances?
+   </li>
+  </ol>
+ </body>
+</html>

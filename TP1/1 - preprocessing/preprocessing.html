@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   preprocessing - Optimization training at CINES
+  </title>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+  </script>
+  <script>
+   hljs.initHighlightingOnLoad();
+  </script>
+  <style type="text/css">
+   body{font:16px Helvetica,Arial,sans-serif;line-height:1.4;color:#333;word-wrap:break-word;background-color:#fff;padding:10px 15px}strong{font-weight:700}h1{font-size:2em;margin:.67em 0;text-align:center}h2{font-size:1.75em}h3{font-size:1.5em}h4{font-size:1.25em}h1,h2,h3,h4,h5,h6{font-weight:700;position:relative;margin-top:15px;margin-bottom:15px;line-height:1.1}h1,h2{border-bottom:1px solid #eee}hr{height:0;margin:15px 0;overflow:hidden;background:0 0;border:0;border-bottom:1px solid #ddd}a{color:#4183C4}a.absent{color:#c00}ol,ul{padding-left:15px;margin-left:5px}ol{list-style-type:lower-roman}table{padding:0}table tr{border-top:1px solid #ccc;background-color:#fff;margin:0;padding:0}table tr:nth-child(2n){background-color:#aaa}table tr th{font-weight:700;border:1px solid #ccc;text-align:left;margin:0;padding:6px 13px}table tr td{border:1px solid #ccc;text-align:left;margin:0;padding:6px 13px}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}img{max-width:100%}code{padding:0 5px;background-color:#d3d3d3}blockquote{padding: 0 15px;border-left:4px solid #ccc}
+  </style>
+ </head>
+ <body>
+  <h1>
+   Pre-processing exercise
+  </h1>
+  <h2>
+   Compile the executable
+  </h2>
+  <p>
+   The code is written in
+   <code>
+    C++
+   </code>
+   so you will need to use
+   <code>
+    g++
+   </code>
+   compiler.
+   <br/>
+   You can compile with different optimisation levels:
+  </p>
+  <pre><code>&gt; g++ main.cpp
+</code></pre>
+  <pre><code>&gt; g++ -O1 main.cpp
+</code></pre>
+  <pre><code>&gt; g++ -O2 main.cpp
+</code></pre>
+  <pre><code>&gt; g++ -O3 -fopt-info-vec main.cpp
+</code></pre>
+  <pre><code>&gt; g++ -O3 -fopt-info-vec -march=native main.cpp
+</code></pre>
+  <p>
+   Those commands will produce an
+   <code>
+    a.out
+   </code>
+   executable.
+  </p>
+  <h2>
+   Run the executable
+  </h2>
+  <p>
+   Run the executable with:
+  </p>
+  <pre><code>&gt; ./a.out
+</code></pre>
+  <p>
+   This will print out the computational time of the code.
+  </p>
+  <pre><code>Computational time: 11069.4ms
+</code></pre>
+  <p>
+   <code>
+    time
+   </code>
+   command can give you the total execution time:
+  </p>
+  <pre><code>&gt; time ./a.out
+Computational time: 2132.48ms
+
+real    0m5.620s
+user    0m4.472s
+sys 0m1.143s
+</code></pre>
+  <h2>
+   Work to do
+  </h2>
+  <p>
+   Try to pre-compute things in order to minimize the total number of operations in the code.
+  </p>
+  <blockquote>
+   <p>
+    Understand what this code is doing could help you in this task. For example you can write the
+    <code>
+     D[0]
+    </code>
+    computation on a piece of paper (of course you can take a small value for
+    <code>
+     n
+    </code>
+    ).
+   </p>
+  </blockquote>
+ </body>
+</html>
